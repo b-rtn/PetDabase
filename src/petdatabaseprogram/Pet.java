@@ -5,6 +5,8 @@
  */
 package petdatabaseprogram;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author ratnabarot
@@ -12,8 +14,7 @@ package petdatabaseprogram;
 public class Pet {
     
     private String name;
-	private int age;
-    int length;
+    private int age;
 	
 	public Pet() {
 		this.name = " ";
@@ -46,5 +47,6 @@ public class Pet {
 	public void show(int ind) {
 		System.out.format("|%3d|%10s|%4d|\n", ind, name, age);
 	}
+        
     
 }

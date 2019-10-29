@@ -20,7 +20,7 @@ public class PetDatabaseProgram {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws FileNotFoundException {
-        int choice, size = ' ';
+        int choice, id = ' ';
         String input = " ";
         petsData data = new petsData();
         //String data[] = new String[size];
@@ -48,17 +48,16 @@ public class PetDatabaseProgram {
             if(choice == 2){
                 data.show();
                 int count = 0;
-                
-                for(int i=0; i<size; i++){
-         
+                while(true){
                     System.out.print("\nadd pet (name, age): ");
                     input = s.next();
                     
                     String[] name=input.split(" ");
-                    int age = Integer.parseInt(name[1]);
+                    
                     if(input.equalsIgnoreCase("done")){
                         break;
                     }
+                    int age = Integer.parseInt(name[1]);
                     data.add(name[0], age);
                     count++;
                 }
@@ -68,20 +67,23 @@ public class PetDatabaseProgram {
             
             }
             if(choice == 3){
+                data.show();
                 System.out.print("\nEnter the pet ID you want to update: ");
-                input = s.next();
+                id = s.nextInt();
                 System.out.print("\nEnter new name and new age: ");
-                input = s.next();
+                input = s.next(); 
+                String[] name = input.split(" ");
+                data.update(id,name[0], Integer.parseInt(name[1]));
                 System.out.print("\n       changed to       .\n");
               
             }
             if(choice == 4){
-                
+                data.show();
                 System.out.print("\nEnter the pet ID to remove: ");
-                input = s.next();
-                data.remove(" ");
+                id = s.nextInt();
+                data.remove(id);
                 System.out.print("\n      is removed.\n");
-            }
+            } 
             if(choice == 5){
                 
                 System.out.print("\nEnter a name to search: "); 

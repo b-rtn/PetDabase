@@ -15,13 +15,14 @@ import java.util.List;
  * @author ratnabarot
  */
 class petsData {
-   
-    static Pet pets[] = new Pet[' '];
+    
+    static int size = ' ';
+    static Pet pets[] = new Pet[size];
     
     //Method for loading Pet data from file.
     public petsData() throws FileNotFoundException {
         { 
-            String[] items = null;
+            String[] name = null;
             int i=0;
                 try {
 		    FileInputStream fstream = new FileInputStream("pets.txt");
@@ -30,8 +31,8 @@ class petsData {
 		    String strLine;
 		            
 		        while ((strLine = br.readLine()) != null) {
-		            items = strLine.split(" ");
-		            pets[i++]= new Pet(items[0], Integer.parseInt(items[1])); 
+		            name = strLine.split(" ");
+		            pets[i++]= new Pet(name[0], Integer.parseInt(name[1])); 
 		                
 		        }
 		            in.close();
@@ -40,7 +41,7 @@ class petsData {
 				//e.printStackTrace();
                     }
                     catch(ArrayIndexOutOfBoundsException exception) {
-                        add(items[0], Integer.parseInt(items[1]));
+                        add(name[0], Integer.parseInt(name[1]));
                     }
 			  
                     catch(Exception e){
@@ -55,7 +56,7 @@ class petsData {
 	    FileWriter fr = new FileWriter("pets.txt");
 	    BufferedWriter br = new BufferedWriter(fr);
 	    PrintWriter out = new PrintWriter(br);
-	    for(int i=0; i<pets.length; i++){
+	    for(int i=0; i<size; i++){
 	            
                 if(pets[i] != null){  
                     out.write(pets[i].getName()+" "+pets[i].getAge());
@@ -69,10 +70,15 @@ class petsData {
 	}
     }
 
-    void add(String name, int age) {
-        int listFromArray = 0;
+    public static void add(String name, int age) {
+
+        // Convert array to list
+	List<Pet> listFromArray = Arrays.asList(pets);
+        
         // Convert array to list
         List<Pet> tempList = new ArrayList<Pet>(listFromArray);
+        
+        tempList.add(new Pet(name,age));
         
         //Convert list back to array		 		
  	Pet[] tempArray = new Pet[tempList.size()];		 		
@@ -80,10 +86,6 @@ class petsData {
        
     }
 
-    public static void remove(String _) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
     public static void show() {
 		int size=pets.length;
 		System.out.println("+-------------------+");
@@ -98,5 +100,31 @@ class petsData {
 		System.out.println(Arrays.stream(pets).filter(e -> e != null).count() +" rows in set.");
 		System.out.println();
 	}
+
+    void update(int id, String name, int age) {
+        try {    
+                System.out.println(pets[id].getName() + " "+ pets[id].getAge()+  " changed to "+ name+ " "+age);
+                pets[id].setName(name);
+		pets[id].setAge(age);
+            }
+        catch(NullPointerException e) 
+        { 
+            System.out.println("Error: ID not found."); 
+        } 
+    }
+
+    void remove(int id) {
+       // Convert array to list
+	List<Pet> listFromArray = Arrays.asList(pets);
+        
+        // Convert array to list
+        List<Pet> tempList = new ArrayList<Pet>(listFromArray);
+        System.out.println(pets[id].getName() + " "+ pets[id].getAge()+ " was removed. ");
+        tempList.remove(id);
+        
+        //Convert list back to array		 		
+ 	Pet[] tempArray = new Pet[tempList.size()];		 		
+ 	pets = tempList.toArray(tempArray);
+    }
     
 }
