@@ -85,14 +85,16 @@ public class PetDatabaseProgram {
                 System.out.print("\n      is removed.\n");
             } 
             if(choice == 5){
-                
-                System.out.print("\nEnter a name to search: "); 
-                input = s.next();
+                data.show();
+                System.out.print("\nEnter a name to search: ");
+                String name = s.next();
+                data.searchPetByName(name);
             }
             if(choice == 6){
-            
+                data.show();
                 System.out.print("\nEnter age to search: ");
-                input = s.next();
+                int age = s.nextInt();
+                data.searchPetByAge(age);
             }
 
         }while(choice !=7);

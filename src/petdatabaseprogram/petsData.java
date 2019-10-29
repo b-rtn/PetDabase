@@ -87,7 +87,6 @@ class petsData {
     }
 
     public static void show() {
-		int size=pets.length;
 		System.out.println("+-------------------+");
 		System.out.println("|ID | NAME     |AGE |");
 		System.out.println("+-------------------+");
@@ -125,6 +124,36 @@ class petsData {
         //Convert list back to array		 		
  	Pet[] tempArray = new Pet[tempList.size()];		 		
  	pets = tempList.toArray(tempArray);
+    }
+
+    void searchPetByName(String name) {
+        System.out.println("+-------------------+");
+	System.out.println("|ID | NAME     |AGE |");
+	System.out.println("+-------------------+");
+		
+	for(int i=0;i<size;i++) {		
+            if(pets[i].getName().toUpperCase().equals(name.toUpperCase()))
+               pets[i].show(i);
+            }
+		
+	System.out.println("+-------------------+");
+	System.out.println(Arrays.stream(pets).filter(e -> e != null).count() +" rows in set.");
+	System.out.println();
+    }
+
+    void searchPetByAge(int age) {
+        System.out.println("+-------------------+");
+	System.out.println("|ID | NAME     |AGE |");
+	System.out.println("+-------------------+");
+		
+	for(int i=0;i<size;i++) {		
+            if(pets[i].getAge()==age)
+                pets[i].show(i);
+            }
+		
+	System.out.println("+-------------------+");
+	System.out.println(Arrays.stream(pets).filter(e -> e != null).count() +" rows in set.");
+	System.out.println();
     }
     
 }
