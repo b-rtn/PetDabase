@@ -46,7 +46,7 @@ public class PetDatabaseProgram {
                  data.show();
             }
             if(choice == 2){
-                data.show();
+                data.show(); 
                 int count = 0;
                 while(true){
                     System.out.print("\nadd pet (name, age): ");
@@ -58,6 +58,12 @@ public class PetDatabaseProgram {
                         break;
                     }
                     int age = Integer.parseInt(name[1]);
+                    
+                    //Validate age input(1 to 20)
+                    if(age<1 || age>20){
+                        System.out.println("Error: "+ input +" is not a valid age.");
+                        continue;
+                    }
                     data.add(name[0], age);
                     count++;
                 }
@@ -75,6 +81,7 @@ public class PetDatabaseProgram {
                 String[] name = input.split(" ");
                 data.update(id,name[0], Integer.parseInt(name[1]));
                 System.out.print("\n       changed to       .\n");
+                
               
             }
             if(choice == 4){
@@ -83,25 +90,30 @@ public class PetDatabaseProgram {
                 id = s.nextInt();
                 data.remove(id);
                 System.out.print("\n      is removed.\n");
+               
             } 
             if(choice == 5){
                 data.show();
                 System.out.print("\nEnter a name to search: ");
-                String name = s.next();
-                data.searchPetByName(name);
+                String names = s.next();
+                data.searchPetByName(names);
+                
             }
             if(choice == 6){
                 data.show();
                 System.out.print("\nEnter age to search: ");
                 int age = s.nextInt();
                 data.searchPetByAge(age);
+               
             }
 
         }while(choice !=7);
         
         if(choice == 7){
+            data.writeToFile();
             System.out.println("Successfully exited the program");
             System.exit(0);
+            
         }
     }
     

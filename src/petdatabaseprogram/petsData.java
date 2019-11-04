@@ -16,9 +16,9 @@ import java.util.List;
  */
 class petsData {
     
-    static int size = ' ';
-    static Pet pets[] = new Pet[size];
+    static Pet pets[] = new Pet[5];
     
+
     //Method for loading Pet data from file.
     public petsData() throws FileNotFoundException {
         { 
@@ -56,7 +56,7 @@ class petsData {
 	    FileWriter fr = new FileWriter("pets.txt");
 	    BufferedWriter br = new BufferedWriter(fr);
 	    PrintWriter out = new PrintWriter(br);
-	    for(int i=0; i<size; i++){
+	    for(int i=0; i<pets.length; i++){
 	            
                 if(pets[i] != null){  
                     out.write(pets[i].getName()+" "+pets[i].getAge());
@@ -78,7 +78,12 @@ class petsData {
         // Convert array to list
         List<Pet> tempList = new ArrayList<Pet>(listFromArray);
         
-        tempList.add(new Pet(name,age));
+        //Check to see if the database is full
+        if(Arrays.stream(pets).filter(e -> e != null).count() < 5){
+            tempList.add(new Pet(name,age));
+        }else{
+            System.out.println("Error: Database is full.");
+        }
         
         //Convert list back to array		 		
  	Pet[] tempArray = new Pet[tempList.size()];		 		
@@ -87,24 +92,25 @@ class petsData {
     }
 
     public static void show() {
-		System.out.println("+-------------------+");
-		System.out.println("|ID | NAME     |AGE |");
-		System.out.println("+-------------------+");
-		for(int i=0;i<size;i++) {
-                    if(pets[i] != null){
-                    pets[i].show(i);
-                    }
-		}
-		System.out.println("+-------------------+");
-		System.out.println(Arrays.stream(pets).filter(e -> e != null).count() +" rows in set.");
-		System.out.println();
+        int size = pets.length;
+	System.out.println("+-------------------+");
+	System.out.println("|ID | NAME     |AGE |");
+	System.out.println("+-------------------+");
+	for(int i=0;i<pets.length;i++) {
+            if(pets[i] != null){
+            pets[i].show(i);
+            }
+	}
+	System.out.println("+-------------------+");
+	System.out.println(Arrays.stream(pets).filter(e -> e != null).count() +" rows in set.");
+	System.out.println();
 	}
 
     void update(int id, String name, int age) {
         try {    
-                System.out.println(pets[id].getName() + " "+ pets[id].getAge()+  " changed to "+ name+ " "+age);
-                pets[id].setName(name);
-		pets[id].setAge(age);
+            System.out.println(pets[id].getName() + " "+ pets[id].getAge()+  " changed to "+ name+ " "+age);
+            pets[id].setName(name);
+            pets[id].setAge(age);
             }
         catch(NullPointerException e) 
         { 
@@ -118,20 +124,28 @@ class petsData {
         
         // Convert array to list
         List<Pet> tempList = new ArrayList<Pet>(listFromArray);
+        
+        //Validate that the index value exists.
+        if( id > 4 || tempList.get(id)== null ) {
+            System.out.println("Error: ID " + id + " does not exist.");
+        }
+        else {
         System.out.println(pets[id].getName() + " "+ pets[id].getAge()+ " was removed. ");
         tempList.remove(id);
         
         //Convert list back to array		 		
  	Pet[] tempArray = new Pet[tempList.size()];		 		
  	pets = tempList.toArray(tempArray);
+        }
     }
 
     void searchPetByName(String name) {
+        int size = pets.length;
         System.out.println("+-------------------+");
 	System.out.println("|ID | NAME     |AGE |");
 	System.out.println("+-------------------+");
 		
-	for(int i=0;i<size;i++) {		
+	for(int i=0;i<pets.length;i++) {		
             if(pets[i].getName().toUpperCase().equals(name.toUpperCase()))
                pets[i].show(i);
             }
@@ -142,11 +156,12 @@ class petsData {
     }
 
     void searchPetByAge(int age) {
+        int size = pets.length;
         System.out.println("+-------------------+");
 	System.out.println("|ID | NAME     |AGE |");
 	System.out.println("+-------------------+");
 		
-	for(int i=0;i<size;i++) {		
+	for(int i=0;i<pets.length;i++) {		
             if(pets[i].getAge()==age)
                 pets[i].show(i);
             }
